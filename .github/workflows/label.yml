@@ -4,19 +4,20 @@
 # To use this workflow, you will need to set up a .github/labeler.yml
 # file with configuration.  For more information, see:
 # https://github.com/actions/labeler
+name: Auto Label Pull Requests
 
-name: Labeler
-on: [pull_request_target]
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
 
 jobs:
   label:
-
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-
     steps:
-    - uses: actions/labeler@v4
-      with:
-        repo-token: "${{ secrets.YOUR_SECRET_NAME }}"
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Auto-label PR
+        uses: actions/labeler@v4
+        with:
+          repo-token: ${{ secrets.YOUR_SECRET_NAME }}
