@@ -4,22 +4,15 @@
 # To use this workflow, you will need to set up a .github/labeler.yml
 # file with configuration.  For more information, see:
 # https://github.com/actions/labeler
-name: Auto Label Pull Requests
-
+name: "Pull Request Labeler"
 on:
-  pull_request: 
-    types: [opened, edited, synchronize]
-  pull_request_target:
-    types: [opened, edited, synchronize]
+- pull_request_target
 
 jobs:
-  label:
+  labeler:
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4 # Actualiza a la última versión
-
-      - name: Auto-label PR
-        uses: github/labeler@v5 # Actualiza a la última versión compatible con Node.js 20
-        with:
-          repo-token: ${{ secrets.YOUR_SECRET_NAME }}
+    - uses: actions/labeler@v5
